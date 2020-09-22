@@ -1,83 +1,50 @@
-/*******************************************************************************************
-*
-*   raylib [core] example - Basic 3d example
-*
-*   Welcome to raylib!
-*
-*   To compile example, just press F5.
-*   Note that compiled executable is placed in the same folder as .c file
-*
-*   You can find all basic examples on C:\raylib\raylib\examples folder or
-*   raylib official webpage: www.raylib.com
-*
-*   Enjoy using raylib. :)
-*
-*   This example has been created using raylib 1.0 (www.raylib.com)
-*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
-*
-*   Copyright (c) 2013-2020 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
-
+#include <stdio.h>
 #include "raylib.h"
+#include "raymath.h"
 
-int main() 
+void Input()
 {
-    // Initialization
-    //--------------------------------------------------------------------------------------
+}
+
+void Update()
+{
+}
+
+void Render()
+{
+    double iterationStep = 0.005;
+    double userConst = 100;
+    BeginDrawing();
+
+    ClearBackground(RAYWHITE);
+    for (double i = 0; i < PI; i += iterationStep)
+    {
+        float r = userConst * cosf(3 * i); // r = a * cos(a*f)
+        float x = r * cosf(i);
+        float y = r * sinf(i);
+
+        DrawCircle((int)x + 400, (int)y + 225, 1, RED);
+    }
+    DrawFPS(10, 10);
+    EndDrawing();
+}
+
+int main(void)
+{
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    InitWindow(screenWidth, screenHeight, "raylib");
+    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 
-    Camera camera = { 0 };
-    camera.position = (Vector3){ 10.0f, 10.0f, 8.0f };
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-    camera.fovy = 60.0f;
-    camera.type = CAMERA_PERSPECTIVE;
-    
-    SetCameraMode(camera, CAMERA_ORBITAL);
+    SetTargetFPS(60);
 
-    Vector3 cubePosition = { 0.0f };
-
-    SetTargetFPS(120);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!WindowShouldClose()) // Detect window close button or ESC key
     {
-        // Update
-        //----------------------------------------------------------------------------------
-        UpdateCamera(&camera);
-        //----------------------------------------------------------------------------------
-
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-
-            ClearBackground(RAYWHITE);
-
-            BeginMode3D(camera);
-
-                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
-                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
-                DrawGrid(10, 1.0f);
-
-            EndMode3D();
-
-            DrawText("This is a raylib example", 10, 40, 20, DARKGRAY);
-
-            DrawFPS(10, 10);
-
-        EndDrawing();
-        //----------------------------------------------------------------------------------
+        Input();
+        Update();
+        Render();
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
+    CloseWindow(); // Close window and OpenGL context
     return 0;
 }
