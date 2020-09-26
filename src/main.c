@@ -3,11 +3,11 @@
 
 int main(void)
 {
-
+    // Recommended window size
     const int screenWidth = 1280;
     const int screenHeight = 720;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    InitWindow(screenWidth, screenHeight, "Polar coordinate plot. Essaulov Andrew");
     SetTargetFPS(60);
 
     app_t app;

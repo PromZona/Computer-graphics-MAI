@@ -38,7 +38,7 @@ void Init(app_t *app, int w, int h, double user_start)
 
 void Input(app_t *app)
 {
-    if (IsKeyPressed(KEY_KP_ADD))
+    if (IsKeyPressed(KEY_A))
     {
         if (app->points_count < MAX_POINTS_COUNT)
         {
@@ -47,11 +47,11 @@ void Input(app_t *app)
         }
     }
 
-    if (IsKeyPressed(KEY_KP_SUBTRACT))
+    if (IsKeyPressed(KEY_Z))
     {
         if (app->points_count > UNIT)
         {
-            app->user_value -= 5;
+            app->user_value -= UNIT;
             app->iteration_step = iterationCalc(app->user_value);
         }
     }
@@ -104,7 +104,7 @@ void Render(app_t *app)
 
     DrawLine(0, app->shift.y, app->width, app->shift.y, BLUE);  // AXIS X
     DrawLine(app->shift.x, 0, app->shift.x, app->height, BLUE); // AXIS Y
-
+    
     for (int x = 0; x < app->width; x += UNIT)
     {
         if ((x / 10) % 2  == 0)
@@ -125,10 +125,18 @@ void Render(app_t *app)
 
     DrawLineStrip(app->points, app->points_count, RED); // Plot
 
-    char str[16];
+    char str[24];
     sprintf(str, "Points - %d", app->points_count);
-    DrawText(str, UNIT, 40, 18, DARKGREEN);
+    DrawText(str, 10, 40, 24, DARKGREEN);
+    
+    sprintf(str, "User constant - %d", (int)app->user_value);
+    DrawText(str, 10, 80, 24, DARKGREEN);
 
-    DrawFPS(10, 10);
+    DrawText("Control:", 10, 120, 24, DARKGREEN);
+    DrawText("A - Increase <User constant>", 10, 160, 24, DARKGREEN);
+    DrawText("Z - Decrease <User constant>", 10, 200, 24, DARKGREEN);
+    DrawText("Arrows - Move around", 10, 240, 24, DARKGREEN);
+
+    // DrawFPS(10, 10);
     EndDrawing();
 }
