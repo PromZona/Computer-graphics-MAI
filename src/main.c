@@ -7,6 +7,7 @@ int main(void)
     const int screenWidth = 1280;
     const int screenHeight = 720;
 
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Polar coordinate plot. Essaulov Andrew");
     SetTargetFPS(60);
 

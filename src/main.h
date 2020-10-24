@@ -95,6 +95,14 @@ void Update(app_t *app)
     }
     app->points[app->points_count] = app->points[0];
     app->points_count++;
+
+    Vector2 shiftbuf = { app->shift.x - (app->width / 2), app->shift.y - (app->height / 2)};
+
+    app->height = GetScreenHeight();
+    app->width = GetScreenWidth();
+
+    app->shift.x = app->width / 2 + shiftbuf.x;
+    app->shift.y = app->height / 2 + shiftbuf.y;
 }
 
 void Render(app_t *app)
@@ -114,6 +122,10 @@ void Render(app_t *app)
         DrawLine(x, app->shift.y - 3, x, app->shift.y + 3, BLUE); // Measure
     }
 
+    // Arrow X
+    DrawTriangle((Vector2){app->width - 40, app->height / 2 - 10}, (Vector2){app->width - 40, app->height / 2  + 10}, (Vector2){app->width, app->height / 2}, RED);
+    DrawText("X", app->width - 30, app->height / 2  + 15, 16, RED);
+
     for (int y = 0; y < app->height; y += UNIT)
     {
         if ((y / 10) % 2 == 0)
@@ -122,6 +134,10 @@ void Render(app_t *app)
         }
         DrawLine(app->shift.x - 3, y, app->shift.x + 3, y, BLUE); // Measure
     }
+
+    // Arrow Y
+    DrawTriangle((Vector2){app->width / 2 - 10, 40}, (Vector2){app->width / 2 + 10, 40}, (Vector2){app->width / 2, 0}, RED);
+    DrawText("Y", app->width / 2 + 15, 30, 16, RED);
 
     DrawLineStrip(app->points, app->points_count, RED); // Plot
 
@@ -135,7 +151,7 @@ void Render(app_t *app)
     DrawText("Control:", 10, 120, 24, DARKGREEN);
     DrawText("A - Increase <User constant>", 10, 160, 24, DARKGREEN);
     DrawText("Z - Decrease <User constant>", 10, 200, 24, DARKGREEN);
-    DrawText("Arrows - Move around", 10, 240, 24, DARKGREEN);
+    // DrawText("Arrows - Move around", 10, 240, 24, DARKGREEN);
 
     // DrawFPS(10, 10);
     EndDrawing();
